@@ -3,12 +3,12 @@ pipeline{
 	environment{
 		dockerHome=tool 'myDocker'
 		mavenHome=tool 'myMaven'
-		PATH='$dockerHome/bin :$mavenHome/bin :$PATH'
+		PATH='$dockerHome/bin:$mavenHome/bin:$PATH'
 	}
 	stages{
 		stage('Package'){
 			steps{
-				sh "mvn Package -DskipTests"
+				sh "mvn package -DskipTests"
 			}
 		}
 		stage('Build Docker image'){
@@ -22,7 +22,7 @@ pipeline{
 		stage('Push Docker Image'){
 			steps{
 				script{
-					docker.withRegistry("",'dockerhub')
+					docker.withRegistry("",'hash48')
 					dockerImage.push()
 					dockerImage.push('latest')
 				}
