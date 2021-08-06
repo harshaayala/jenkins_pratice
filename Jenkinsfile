@@ -1,6 +1,11 @@
 pipeline{
 	agent any
 	stages{
+		stage('Package'){
+			steps{
+				sh "mvn Package -DskipTests"
+			}
+		}
 		stage('Build Docker image'){
 			steps{
 				script{
