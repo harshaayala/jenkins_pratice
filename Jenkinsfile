@@ -1,22 +1,21 @@
 pipeline{
 	agent any
 	stages{
-		stage('Build'){
+		stage('Build Docker image'){
 			steps{
-				echo "BUILD-NUMBER -$env.BUILD_NUMBER"
-				echo "$env.JOB_NAME"
-				echo "Build"
-				echo "Test"
+				script{
+					dockerImage=docker.build("hash48/currency-exchange-devops:${env.BUILD_TAG}")
+				}
 			}
-		post{
-			always{
-				echo "success"
-			}
-			success{
-				echo "build sucess"
-			}
-			failure{
-				echo "failed"
+		
+		}
+		stage('Push Docker Image'){
+			steps{
+				script{
+					docker.withRegistry("",'dockerhub')
+					dockerImage.push()
+					dockerImage.push('latest')
+				}
 			}
 		}
 		}
