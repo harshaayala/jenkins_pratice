@@ -1,5 +1,10 @@
 pipeline{
 	agent any
+	environment{
+		dockerHome=tool 'myDocker'
+		mavenHome=tool 'myMaven'
+		PATH='$dockerHome/bin :$MavenHome/bin :$PATH'
+	}
 	stages{
 		stage('Package'){
 			steps{
